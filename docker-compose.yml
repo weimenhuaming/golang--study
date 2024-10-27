@@ -1,0 +1,54 @@
+# yaml 配置
+version: '3.8'
+
+services:
+  # MySQL容器
+  mysql:
+    image: "mysql:8.0.39"
+    container_name: "some-mysql"
+    restart: always
+#    command: #初始化命令导入我们的sql语句，去创建表
+#      -
+    environment:  # 设置密码
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_DATABASE: "study"
+#      MYSQL_PASSWORD: "123456"
+#    volumes:  #目前还不知道是干啥的（卷，可能是牵扯到逻辑卷的挂载,确实，就是为了实现数据的可持续化）
+#      - mysql_data:/var/lib/mysql
+    ports:  # 端口的映射(外部，内部)
+      - "3307:3306"
+
+  # Redis容器
+  redis:
+    image: "redis:7.4.1"
+    container_name: "redis-test"
+    restart: always
+    command: "redis-server --requirepass 123456"  # 设置Redis密码
+#    volumes:
+#      - redis_data:/data
+    ports:
+      - "6379:6379"
+
+
+  # Go Web应用容器
+  go_web_app:
+    build:
+      context: .            # 上下文路径
+      dockerfile: Dockerfile    #指定构建镜像的dockerfile文件的文件名
+    container_name: test    #容器的名字
+    restart: always             #是否重启容器
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: 123456
+      DB_NAME: study
+    ports:
+      - "8080:8080"
+    depends_on:            #设置依赖关系。
+      - mysql
+      - redis
+
+
+
+
+

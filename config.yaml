@@ -1,0 +1,29 @@
+#这个是yaml的配置文件，具体的yaml使用建议还是查看对应的文章。
+
+Database:
+  DbType : mysql
+  DbHost : 127.0.0.1
+  DbPort : 3306
+  DbUser : root
+  DbPassword : 123456
+  DbName : study
+  MaxIdleConnections : 10
+  MaxOpenConnections : 100
+
+Redis:
+  RdbType : redis
+  RdbUser : root
+  RdbPassword : 123456
+  Rdb : 0
+  Addr : localhost:6379
+#  RdbPort : 6379
+#  RdbHost : localhost
+
+Server:
+  HttpPort : :8080
+  JwtKey : 8js82js72
+  Mode : release
+
+Logger:
+  Level : debug
+  Std : std
